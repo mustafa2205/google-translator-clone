@@ -2,7 +2,8 @@
 
 
 
-![Multi-language Translator](translator/static/translator/Screenshot 2024-06-25 163950.png)
+![Multi-language Translator](translator/static/translator/Screenshot%202024-06-25%20163950.png)
+
 
 
 ## Description
