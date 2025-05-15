@@ -5,7 +5,222 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multi-language Translator</title>
-    <link rel="stylesheet" href="{% static 'translator/styles.css' %}">
+    <style>
+        /* Global Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f1f1f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Stacking title and form */
+            height: 100vh;
+            overflow: hidden;
+            color: #333;
+            text-rendering: optimizeLegibility;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: #fff; /* Title color changed to white */
+            letter-spacing: -1px;
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        /* Form Styling */
+        form {
+            background-color: #ffffff;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 650px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            border: 1px solid #ddd;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Animation on Hover */
+        form:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        textarea,
+        select {
+            font-size: 1rem;
+            padding: 1.2rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease-in-out;
+            background-color: #fafafa;
+            color: #333;
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: none;
+            box-sizing: border-box;
+        }
+
+        textarea:focus,
+        select:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+        }
+
+        label {
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        select {
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 1.1rem;
+            padding: 1.2rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:active {
+            background-color: #388e3c;
+        }
+
+        /* Translated Text Section */
+        #translated_text {
+            margin-top: 2rem;
+            padding: 2rem;
+            background-color: #333; /* Dark background for better contrast */
+            color: #fff; /* White text for visibility */
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 650px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-align: left;
+            display: none; /* Initially hidden */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        #translated_text.show {
+            display: block; /* Show when class 'show' is added */
+            opacity: 1; /* Fade-in effect */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+                margin-bottom: 2rem;
+            }
+
+            form {
+                padding: 1.5rem;
+                max-width: 100%;
+                gap: 1.8rem;
+            }
+
+            textarea,
+            select,
+            button {
+                font-size: 1rem;
+            }
+        }
+
+        /* Subtle Animations for Form Elements */
+        form {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Dark Mode Styling (if applicable) */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #121212;
+                color: #ddd;
+            }
+
+            form {
+                background-color: #1f1f1f;
+                box-shadow: 0 15px 30px rgba(255, 255, 255, 0.1);
+                border-color: #444;
+            }
+
+            textarea,
+            select {
+                background-color: #333;
+                border-color: #444;
+                color: #fff;
+            }
+
+            button {
+                background-color: #4CAF50;
+                color: #fff;
+            }
+
+            button:hover {
+                background-color: #45a049;
+            }
+
+            button:active {
+                background-color: #388e3c;
+            }
+
+            #translated_text {
+                background-color: #333;
+                color: #ddd;
+            }
+
+            h1 {
+                color: #fff;
+            }
+        }
+
+    </style>
 </head>
 <body>
     <h1>Multi-language Translator</h1>
@@ -27,6 +242,28 @@
         <button type="submit">Translate</button>
     </form>
     <div id="translated_text"></div>
-    <script src="{% static 'translator/scripts.js' %}"></script>
+    <script>
+        document.getElementById('translation-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+        
+            let sourceText = document.getElementById('source_text').value;
+            let sourceLanguage = document.getElementById('source_language').value;
+            let targetLanguage = document.getElementById('target_language').value;
+        
+            fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: `source_text=${sourceText}&source_language=${sourceLanguage}&target_language=${targetLanguage}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('translated_text').innerText = data.translated_text;
+                document.getElementById('translated_text').classList.add('show'); // Add class to show the translated text
+            });
+        });
+    </script>
 </body>
 </html>

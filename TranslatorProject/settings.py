@@ -76,14 +76,15 @@ WSGI_APPLICATION = 'TranslatorProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'translator_db',
-        'USER': 'root',
-        'PASSWORD': 'rath@23111998',
-        'HOST': '127.0.0.1',
-        'PORT': '3306'
+        'USER': 'mustafa',  # Change this if your PostgreSQL user is different
+        'PASSWORD': 'stratos',  # Replace with your actual PostgreSQL password
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
+
 
 
 # Password validation
@@ -126,3 +127,6 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LDFLAGS="-L/opt/homebrew/opt/mysql-client/lib"
+CPPFLAGS="-I/opt/homebrew/opt/mysql-client/include"
