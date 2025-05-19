@@ -4,7 +4,7 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi-language Translator</title>
+    <title>Google Translator Clone</title>
     <style>
         /* Global Reset */
         * {
@@ -223,7 +223,7 @@
     </style>
 </head>
 <body>
-    <h1>Multi-language Translator</h1>
+    <h1>Google Translator Clone</h1>
     <form id="translation-form" method="post" action="{% url 'translate' %}">
         {% csrf_token %}
         <textarea name="source_text" id="source_text" placeholder="Enter text to translate"></textarea>
