@@ -2,7 +2,7 @@
 
 
 
-![Multi-language Translator](translator/static/translator/Screenshot%202024-06-25%20163950.png)
+![Multi-language Translator](translator/static/translator/Screenshot 2025-05-21 at 10.51.12.png)
 
 
 
@@ -125,8 +125,8 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 
 ## Credits
 
-- **Developed by**: rajendraprasath and Open AI
-- **Email**: [rajendraprasath307@gmail.com](mailto:rajendraprasath307@gmail.com)
+- **Developed by**: Mustafa Kanchwala 
+- **Email**: [mustafa22.kanchwala@gmail.com](mailto:mustafa22.kanchwala@gmail.com)
 
 
 ### Dependencies
